@@ -1,23 +1,36 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
-
+import Container from './Components/Container';
+import List from './Components/List';
 function App() {
+  const [items,setItems] = useState([]);
+  const addItems = (i)=>{
+    setItems((prevItems)=>{
+      return([...prevItems,i])
+    })
+  };
+  const del=(id)=>{
+    setItems((prevItems)=>{
+      return prevItems.filter((i,index) => {
+        return index!==id;
+      });
+    });
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='container'>
+      <div className='heading'>
+      <h1>Todo App</h1>
+      <Container add={addItems}/>
+      <ul>
+        {
+          items.map((i,index)=>{
+            return(
+              <List key={index} inputvalue={i} del={del} id={index}/>
+            )
+          })
+        }
+      </ul>
+    </div>
     </div>
   );
 }
